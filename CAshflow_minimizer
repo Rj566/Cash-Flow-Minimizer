@@ -1,0 +1,80 @@
+class Bank:
+    def __init__(self, name, net_amount, types):
+        self.name = name
+        self.net_amount = net_amount
+        self.types = set(types)
+
+def get_min_index(list_of_net_amounts):
+    min_value = float('inf')
+    min_index = -1
+    for i, bank in enumerate(list_of_net_amounts):
+        if bank.net_amount == 0:
+            continue
+        if bank.net_amount < min_value:
+            min_index = i
+            min_value = bank.net_amount
+    return min_index
+
+def get_simple_max_index(list_of_net_amounts):
+    max_value = float('-inf')
+    max_index = -1
+    for i, bank in enumerate(list_of_net_amounts):
+        if bank.net_amount == 0:
+            continue
+        if bank.net_amount > max_value:
+            max_index = i
+            max_value = bank.net_amount
+    return max_index
+
+def get_max_index(list_of_net_amounts, min_index, input_banks, max_num_types):
+    max_value = float('-inf')
+    max_index = -1
+    matching_type = None
+
+    for i, bank in enumerate(list_of_net_amounts):
+        if bank.net_amount == 0 or bank.net_amount < 0:
+            continue
+
+        # Find intersection of types
+        common_types = list(list_of_net_amounts[min_index].types.intersection(bank.types))
+        
+        if common_types and bank.net_amount > max_value:
+            max_index = i
+            max_value = bank.net_amount
+            matching_type = common_types[0]  # Assuming we want just one matching type
+
+    return max_index, matching_type
+
+def min_cash_flow_rec(list_of_net_amounts, input_banks, max_num_types):
+    min_index = get_min_index(list_of_net_amounts)
+    max_index, matching_type = get_max_index(list_of_net_amounts, min_index, input_banks, max_num_types)
+
+    # Base case: If all net amounts are zero, return
+    if list_of_net_amounts[min_index].net_amount == 0 and list_of_net_amounts[max_index].net_amount == 0:
+        return []
+
+    # Calculate the minimum value to transfer
+    min_transfer = min(-list_of_net_amounts[min_index].net_amount, list_of_net_amounts[max_index].net_amount)
+    
+    # Settle the amount between the most indebted and the most creditworthy banks
+    list_of_net_amounts[min_index].net_amount += min_transfer
+    list_of_net_amounts[max_index].net_amount -= min_transfer
+
+    # Record this transaction
+    transaction = (input_banks[min_index].name, input_banks[max_index].name, min_transfer, matching_type)
+
+    # Recursively settle the remaining debts
+    return [transaction] + min_cash_flow_rec(list_of_net_amounts, input_banks, max_num_types)
+
+# Example usage:
+banks = [
+    Bank("Bank A", -500, ["type1", "type2"]),
+    Bank("Bank B", 300, ["type1", "type3"]),
+    Bank("Bank C", 200, ["type2", "type3"]),
+]
+
+transactions = min_cash_flow_rec(banks, banks, 3)
+
+# Output the transactions
+for transaction in transactions:
+    print(f"{transaction[0]} pays {transaction[1]} ${transaction[2]} via {transaction[3]}")
