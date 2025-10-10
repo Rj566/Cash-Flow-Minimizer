@@ -1,0 +1,20 @@
+[project]
+name = "sentibotics-agent"
+version = "0.1.0"
+description = "LangChain agent to process oncology drug posts with sentiment and topics"
+authors = [{ name = "Cursor" }]
+requires-python = ">=3.10"
+readme = "README.md"
+dependencies = [
+  "pandas>=2.2.0",
+  "tqdm>=4.66.0",
+  "regex>=2024.5.15",
+  "langchain>=0.2.16",
+  "langchain-core>=0.2.38",
+  "langchain-openai>=0.2.3",
+  "tenacity>=8.3.0",
+  "pydantic>=2.8.2",
+]
+
+[project.scripts]
+sentibotics-agent = "sentibotics_agent.cli:main"

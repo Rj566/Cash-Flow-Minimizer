@@ -1,0 +1,2 @@
+[console_scripts]
+sentibotics-agent = sentibotics_agent.cli:main
