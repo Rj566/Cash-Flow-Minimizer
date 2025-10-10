@@ -1,0 +1,4 @@
+post_id,date,subreddit,text_clean,drug_mentioned,side_effects,topic_cluster,sentiment_score
+p0001,2025-08-28,r/CancerSupport,"Is appetite loss normal when on Keytruda? After 3 weeks of Keytruda, I started experiencing appetite loss.",Keytruda,appetite loss,Side Effects,0.5
+p0002,2025-08-29,r/CancerSupport,Nausea on Opdivo Second infusion and I'm feeling nausea and fatigue.,Opdivo,"fatigue, nausea",Side Effects,0.5
+p0003,2025-08-30,r/LungCancer,Tagrisso is helping Scan shows stable results and I feel better.,Tagrisso,,Positive Outcome,0.5
